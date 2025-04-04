@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Utilisateur Interactive</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Interface Interactive</h1>
+
+    <!-- Barre de recherche -->
+    <label for="search">🔍 Rechercher :</label>
+    <input type="text" id="search" placeholder="Tapez quelque chose..." oninput="searchFunction()">
+    <p id="search-result">Vous avez tapé : <span id="search-text">...</span></p>
+
+    <!-- Slider pour ajuster une valeur -->
+    <label for="slider">📊 Choisir une valeur :</label>
+    <input type="range" id="slider" min="0" max="100" value="50" oninput="updateSlider()">
+    <p>Valeur sélectionnée : <span id="slider-value">50</span></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
