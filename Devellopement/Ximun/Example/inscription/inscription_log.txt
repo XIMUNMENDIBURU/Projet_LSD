@@ -1,0 +1,22 @@
+[2025-04-16 20:11:08] Connexion à la base de données réussie
+[2025-04-16 20:11:08] Formulaire soumis
+[2025-04-16 20:11:08] Erreur PDO: SQLSTATE[42S22]: Column not found: 1054 Champ 'mot_de_passe' inconnu dans field list
+[2025-04-16 20:15:01] Connexion à la base de données réussie
+[2025-04-16 20:15:01] Formulaire soumis
+[2025-04-16 20:15:01] Erreur PDO: SQLSTATE[42S22]: Column not found: 1054 Champ 'mot_de_passe' inconnu dans field list
+[2025-04-16 20:16:07] Connexion à la base de données réussie
+[2025-04-16 20:16:07] Formulaire soumis
+[2025-04-16 20:16:07] Erreur PDO: SQLSTATE[42S22]: Column not found: 1054 Champ 'mot_de_passe' inconnu dans field list
+[2025-04-16 20:16:21] Connexion à la base de données réussie
+[2025-04-16 20:16:21] Formulaire soumis
+[2025-04-16 20:16:21] Insertion réussie, ID généré: 1
+[2025-04-16 20:16:21] Erreur PDO: SQLSTATE[42S22]: Column not found: 1054 Champ 'id' inconnu dans where clause
+[2025-04-16 20:30:24] Connexion à la base de données réussie
+[2025-04-16 20:30:24] Formulaire soumis
+[2025-04-16 20:30:24] Erreurs de validation: Cette adresse email est déjà utilisée.
+[2025-04-17 11:22:44] Connexion à la base de données réussie
+[2025-04-17 11:22:44] Formulaire soumis
+[2025-04-17 11:22:44] Insertion réussie, ID généré: 2
+[2025-04-17 13:55:46] Connexion à la base de données réussie
+[2025-04-17 13:55:46] Formulaire soumis
+[2025-04-17 13:55:46] Insertion réussie, ID généré: 3
