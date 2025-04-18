@@ -2,13 +2,27 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte Interactive</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Géocodage d'adresse</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            margin-top: 20px;
+            border-radius: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Carte Interactive avec Leaflet.js</h1>
+    <h2> Trouver une adresse</h2>
+    <input type="text" id="adresse" value="110 atizaneko errepidea Mendionde 64240">
+    <button onclick="geocodeAdresse()"> Localiser</button>
+
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

@@ -1,0 +1,69 @@
+<!-- inscription.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Formulaire d'inscription</h1>
+    
+    <form id="inscriptionForm" action="traitement.php" method="POST">
+        <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input type="text" id="nom" name="nom" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input type="text" id="prenom" name="prenom" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="entreprise">Entreprise</label>
+            <input type="text" id="entreprise" name="entreprise">
+        </div>
+        
+        <div class="form-group">
+            <label for="siret">SIRET (14 chiffres)</label>
+            <input type="text" id="siret" name="siret" pattern="[0-9]{14}">
+        </div>
+        
+        <div class="form-group">
+            <label for="code_naf">Code NAF (format 0000A)</label>
+            <input type="text" id="code_naf" name="code_naf" pattern="[0-9]{4}[A-Z]">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="mdp">Mot de passe * (8 caractères minimum)</label>
+            <input type="password" id="mdp" name="mdp" minlength="8" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="metier">Métier</label>
+            <input type="text" id="metier" name="metier">
+        </div>
+        
+        <div class="form-group">
+            <label for="loc_x">Localisation X</label>
+            <input type="number" id="loc_x" name="loc_x" step="any">
+        </div>
+        
+        <div class="form-group">
+            <label for="loc_y">Localisation Y</label>
+            <input type="number" id="loc_y" name="loc_y" step="any">
+        </div>
+        
+        <button type="submit" class="btn">S'inscrire</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>

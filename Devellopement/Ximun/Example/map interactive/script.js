@@ -1,13 +1,37 @@
-// Initialisation de la carte centrée sur une position (exemple : Paris)
-var map = L.map('map').setView([48.8566, 2.3522], 13);
+let map; // carte globale
 
-// Ajout d’un fond de carte OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+function geocodeAdresse() {
+    const adresse = document.getElementById("adresse").value;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(adresse)}`;
 
-// Ajout d’un marqueur
-var marker = L.marker([48.8566, 2.3522]).addTo(map);
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lon = parseFloat(data[0].lon);
+                console.log("Latitude :", lat);
+                console.log("Longitude :", lon);
 
-// Ajout d’un popup au clic
-marker.bindPopup("<b>Bienvenue à Paris !</b><br>Ceci est un exemple de carte interactive.").openPopup();
+                // Si la carte existe déjà, on la met à jour
+                if (!map) {
+                    map = L.map('map').setView([lat, lon], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                } else {
+                    map.setView([lat, lon], 13);
+                }
+
+                // Supprimer anciens marqueurs si besoin
+                L.marker([lat, lon]).addTo(map)
+                  .bindPopup("Adresse trouvée ici")
+                  .openPopup();
+
+            } else {
+                console.error("Adresse non trouvée.");
+                alert("Adresse introuvable !");
+            }
+        });
+}
+
