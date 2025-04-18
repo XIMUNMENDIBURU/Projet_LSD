@@ -1,0 +1,3 @@
+[2025-04-17 15:39:12] Connexion à la base de données réussie
+[2025-04-17 15:39:12] Formulaire soumis
+[2025-04-17 15:39:12] Insertion réussie, ID généré: 4

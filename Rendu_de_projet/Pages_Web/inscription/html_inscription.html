@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Inscription - LSD.com</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="inscription-container">
+        <header class="site-header">
+            <h1 class="logo">LSD.com</h1>
+        </header>
+        
+        <div class="form-container">
+            <h1 class="form-title">Créer son compte</h1>
+            
+            <!-- Messages d'erreur du serveur -->
+            <div id="server-messages"></div>
+            
+            <form id="inscriptionForm" action="inscription.php" method="POST">
+                <div class="form-field">
+                    <input type="text" id="nom" name="nom" required>
+                    <label for="nom">Nom</label>
+                    <div class="form-error" id="error-nom"></div>
+                </div>
+                
+                <div class="form-field">
+                    <input type="text" id="prenom" name="prenom" required>
+                    <label for="prenom">Prénom</label>
+                    <div class="form-error" id="error-prenom"></div>
+                </div>
+                
+                <div class="form-field">
+                    <input type="text" id="entreprise" name="entreprise">
+                    <label for="entreprise">Entreprise</label>
+                </div>
+                
+                <div class="form-field">
+                    <input type="text" id="siret" name="siret" pattern="[0-9]{14}">
+                    <label for="siret">Siret</label>
+                    <div class="form-error" id="error-siret"></div>
+                </div>
+                
+                <div class="form-field">
+                    <input type="text" id="code_naf" name="code_naf" pattern="[0-9]{4}[A-Z]">
+                    <label for="code_naf">code NAF</label>
+                    <div class="form-error" id="error-code_naf"></div>
+                </div>
+                
+                <div class="form-field">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Adresse mail</label>
+                    <div class="form-error" id="error-email"></div>
+                </div>
+                
+                <div class="form-field">
+                    <input type="password" id="mdp" name="mdp" minlength="8" required>
+                    <label for="mdp">Mot de passe</label>
+                    <div class="form-error" id="error-mdp"></div>
+                </div>
+                
+                <div class="form-field">
+                    <input type="text" id="metier" name="metier">
+                    <label for="metier">Métiers</label>
+                </div>
+                
+                <div class="form-field">
+                    <input type="tel" id="telephone" name="telephone">
+                    <label for="telephone">Numéro de Téléphone</label>
+                </div>
+                
+                <div class="form-field">
+                    <input type="text" id="adresse" name="adresse" required>
+                    <label for="adresse">Adresse Postale</label>
+                    <div class="form-error" id="error-adresse"></div>
+                </div>
+                
+                <!-- Champs cachés pour stocker lat/lon -->
+                <input type="hidden" id="loc_x" name="loc_x">
+                <input type="hidden" id="loc_y" name="loc_y">
+                
+                <!-- Carte pour la géolocalisation (cachée par défaut) -->
+                <div id="map-container" style="display: none;">
+                    <div id="map"></div>
+                    <button type="button" class="map-close-btn" onclick="toggleMap(false)">Fermer la carte</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="locate-btn" onclick="toggleMap(true)">📍 Localiser</button>
+                    <button type="submit" class="submit-btn">Valider</button>
+                    <button type="button" class="help-btn" onclick="showHelp()">?</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
