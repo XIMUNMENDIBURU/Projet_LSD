@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSD.com - Recherche d'artisans</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Styles spécifiques à la page de recherche */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #808080;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+        
+        .login-link {
+            background-color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #000;
+            border: 1px solid #000;
+        }
+        
+        .search-container {
+            padding: 15px;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .metier-input {
+            flex: 2;
+            min-width: 200px;
+        }
+        
+        .location-input {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rating-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .rating-value {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            font-weight: bold;
+        }
+        
+        .rating-btn {
+            width: 30px;
+            height: 30px;
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .rating-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .search-button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .search-button svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .distance-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .distance-slider {
+            flex: 1;
+        }
+        
+        .map-container {
+            height: 300px;
+            margin: 15px 0;
+        }
+        
+        .results-container {
+            padding: 15px;
+        }
+        
+        .result-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .result-name {
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        
+        .result-profession {
+            margin: 0 0 5px 0;
+        }
+        
+        .result-address {
+            margin: 0 0 10px 0;
+            color: #555;
+        }
+        
+        .more-info {
+            display: inline-block;
+            background-color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #000;
+            border: 1px solid #000;
+            float: right;
+        }
+        
+        .rating-separator {
+            font-weight: bold;
+        }
+        
+        .star {
+            color: #FFD700; /* Jaune doré pour les étoiles pleines */
+        }
+        
+        .half-star {
+            color: #FFD700; /* Jaune doré pour les étoiles à moitié pleines */
+        }
+        
+        .empty-star {
+            color: #ccc;
+        }
+        
+        .no-results {
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">LSD.com</a>
+        <a href="connexion.html" class="login-link">Se connecter en tant qu'artisan</a>
+    </header>
+    
+    <div class="search-container">
+        <form id="searchForm" action="recherche.php" method="GET" class="search-form">
+            <input type="text" id="metier" name="metier" placeholder="Métier (ex: plombier)" class="search-input metier-input">
+            <input type="text" id="location" name="location" placeholder="Ville, code postal" class="search-input location-input">
+            
+            <div class="rating-container">
+                <div class="rating-control">
+                    <button type="button" class="rating-btn" id="minRatingMinus">-</button>
+                    <div class="rating-value" id="minRatingValue">3</div>
+                    <button type="button" class="rating-btn" id="minRatingPlus">+</button>
+                </div>
+                <span class="rating-separator">~</span>
+                <div class="rating-control">
+                    <button type="button" class="rating-btn" id="maxRatingMinus">-</button>
+                    <div class="rating-value" id="maxRatingValue">5</div>
+                    <button type="button" class="rating-btn" id="maxRatingPlus">+</button>
+                </div>
+                <input type="hidden" id="minRating" name="minRating" value="3">
+                <input type="hidden" id="maxRating" name="maxRating" value="5">
+            </div>
+            
+            <button type="submit" class="search-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                </svg>
+            </button>
+        </form>
+        
+        <div class="distance-container">
+            <input type="range" id="distance" name="distance" min="1" max="50" value="3" class="distance-slider">
+            <span id="distanceValue">3 Km</span>
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="lng" name="lng">
+        </div>
+    </div>
+    
+    <div id="map" class="map-container"></div>
+    
+    <div class="results-container" id="results">
+        <!-- Les résultats seront chargés ici via AJAX -->
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Variables globales
+        var map;
+        var searchCircle;
+        var marker;
+        var artisansMarkers;
+        var currentLat = 43.4831519;
+        var currentLng = -1.5551249;
+        var currentDistance = 3;
+
+        // Initialisation de la carte
+        function initMap() {
+            // Créer la carte
+            map = L.map('map').setView([currentLat, currentLng], 13);
+            
+            // Ajouter la couche de tuiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Créer le cercle de recherche
+            searchCircle = L.circle([currentLat, currentLng], {
+                color: '#4285f4',
+                fillColor: '#4285f4',
+                fillOpacity: 0.2,
+                radius: currentDistance * 1000 // km en mètres
+            }).addTo(map);
+            
+            // Créer le marqueur de position
+            marker = L.marker([currentLat, currentLng]).addTo(map);
+            
+            // Créer le groupe de marqueurs pour les artisans
+            artisansMarkers = L.layerGroup().addTo(map);
+        }
+
+        // Initialiser la carte au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+            
+            // Mise à jour du cercle lors du changement de la distance
+            document.getElementById('distance').addEventListener('input', function() {
+                currentDistance = parseInt(this.value);
+                document.getElementById('distanceValue').textContent = currentDistance + ' Km';
+                if (searchCircle) {
+                    searchCircle.setRadius(currentDistance * 1000); // Conversion en mètres
+                }
+            });
+            
+            // Gestion des contrôles de note minimale
+            document.getElementById('minRatingMinus').addEventListener('click', function() {
+                var currentValue = parseInt(document.getElementById('minRatingValue').textContent);
+                if (currentValue > 1) {
+                    currentValue--;
+                    document.getElementById('minRatingValue').textContent = currentValue;
+                    document.getElementById('minRating').value = currentValue;
+                }
+            });
+            
+            document.getElementById('minRatingPlus').addEventListener('click', function() {
+                var currentValue = parseInt(document.getElementById('minRatingValue').textContent);
+                var maxValue = parseInt(document.getElementById('maxRatingValue').textContent);
+                if (currentValue < maxValue) {
+                    currentValue++;
+                    document.getElementById('minRatingValue').textContent = currentValue;
+                    document.getElementById('minRating').value = currentValue;
+                }
+            });
+            
+            // Gestion des contrôles de note maximale
+            document.getElementById('maxRatingMinus').addEventListener('click', function() {
+                var currentValue = parseInt(document.getElementById('maxRatingValue').textContent);
+                var minValue = parseInt(document.getElementById('minRatingValue').textContent);
+                if (currentValue > minValue) {
+                    currentValue--;
+                    document.getElementById('maxRatingValue').textContent = currentValue;
+                    document.getElementById('maxRating').value = currentValue;
+                }
+            });
+            
+            document.getElementById('maxRatingPlus').addEventListener('click', function() {
+                var currentValue = parseInt(document.getElementById('maxRatingValue').textContent);
+                if (currentValue < 5) {
+                    currentValue++;
+                    document.getElementById('maxRatingValue').textContent = currentValue;
+                    document.getElementById('maxRating').value = currentValue;
+                }
+            });
+            
+            // Géolocalisation
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    currentLat = position.coords.latitude;
+                    currentLng = position.coords.longitude;
+                    
+                    // Mise à jour de la carte
+                    map.setView([currentLat, currentLng], 13);
+                    searchCircle.setLatLng([currentLat, currentLng]);
+                    marker.setLatLng([currentLat, currentLng]);
+                    
+                    // Mise à jour des champs cachés
+                    document.getElementById('lat').value = currentLat;
+                    document.getElementById('lng').value = currentLng;
+                    
+                    // Recherche d'adresse inverse pour obtenir la ville
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLng}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.address) {
+                                var city = data.address.city || data.address.town || data.address.village || '';
+                                document.getElementById('location').value = city;
+                            }
+                        })
+                        .catch(error => console.error('Erreur de géolocalisation inverse:', error));
+                    
+                    // Lancer une recherche automatique
+                    setTimeout(function() {
+                        document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+                    }, 500);
+                });
+            }
+            
+            // Recherche d'adresse lors de la saisie dans le champ location
+            document.getElementById('location').addEventListener('blur', function() {
+                var location = this.value;
+                if (location) {
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                currentLat = parseFloat(data[0].lat);
+                                currentLng = parseFloat(data[0].lon);
+                                
+                                // Mise à jour de la carte
+                                map.setView([currentLat, currentLng], 13);
+                                searchCircle.setLatLng([currentLat, currentLng]);
+                                marker.setLatLng([currentLat, currentLng]);
+                                
+                                // Mise à jour des champs cachés
+                                document.getElementById('lat').value = currentLat;
+                                document.getElementById('lng').value = currentLng;
+                            }
+                        })
+                        .catch(error => console.error('Erreur de géocodage:', error));
+                }
+            });
+            
+            // Soumission du formulaire en AJAX
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                var formData = new FormData(this);
+                formData.append('distance', document.getElementById('distance').value);
+                formData.append('lat', document.getElementById('lat').value || currentLat);
+                formData.append('lng', document.getElementById('lng').value || currentLng);
+                formData.append('minRating', document.getElementById('minRating').value);
+                formData.append('maxRating', document.getElementById('maxRating').value);
+                
+                var searchParams = new URLSearchParams();
+                for (var pair of formData.entries()) {
+                    searchParams.append(pair[0], pair[1]);
+                }
+                
+                fetch('recherche.php?' + searchParams.toString())
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('results').innerHTML = html;
+                        
+                        // Vérifier si la variable artisansData existe (injectée par le PHP)
+                        if (typeof window.artisansData !== 'undefined') {
+                            displayArtisansOnMap(window.artisansData);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la recherche:', error);
+                        document.getElementById('results').innerHTML = '<div class="message error"><h3>❌ Erreur</h3><p>Une erreur est survenue lors de la recherche.</p></div>';
+                    });
+            });
+        });
+        
+        // Fonction pour afficher les artisans sur la carte
+        function displayArtisansOnMap(artisans) {
+            console.log("Affichage des artisans sur la carte:", artisans);
+            
+            // Effacer les marqueurs précédents
+            if (artisansMarkers) {
+                artisansMarkers.clearLayers();
+            }
+            
+            if (!artisans || artisans.length === 0) {
+                console.log("Aucun artisan à afficher");
+                return;
+            }
+            
+            // Ajouter les nouveaux marqueurs
+            artisans.forEach(function(artisan) {
+                console.log("Traitement de l'artisan:", artisan.name, "à", artisan.lat, artisan.lng);
+                
+                if (!artisan.lat || !artisan.lng) {
+                    console.log("Coordonnées manquantes pour:", artisan.name);
+                    return;
+                }
+                
+                // Créer un marqueur pour l'artisan
+                var artisanMarker = L.marker([artisan.lat, artisan.lng]).addTo(artisansMarkers);
+                
+                // Générer les étoiles pour la note
+                var starsHtml = '';
+                var note = parseFloat(artisan.note);
+                for (var i = 1; i <= 5; i++) {
+                    if (i <= Math.floor(note)) {
+                        starsHtml += '<span style="color: #FFD700;">★</span>'; // Étoile pleine
+                    } else if (i - 0.5 <= note) {
+                        starsHtml += '<span style="color: #FFD700;">✬</span>'; // Étoile à moitié pleine
+                    } else {
+                        starsHtml += '<span style="color: #ccc;">☆</span>'; // Étoile vide
+                    }
+                }
+                
+                var distanceText = '';
+                if (artisan.distance !== null) {
+                    distanceText = `<br>Distance: ${artisan.distance.toFixed(1)} km`;
+                }
+                
+                artisanMarker.bindPopup(`
+                    <strong>${artisan.name}</strong><br>
+                    ${artisan.metier}<br>
+                    Note: ${starsHtml} (${note.toFixed(1)}/5)
+                    ${distanceText}<br>
+                    <a href="artisan.php?id=${artisan.id}" style="color: #4285f4; text-decoration: none;">Voir le profil</a>
+                `);
+            });
+            
+            // Ajuster la vue pour voir tous les marqueurs et le cercle de recherche
+            try {
+                var bounds = artisansMarkers.getBounds();
+                if (bounds.isValid()) {
+                    bounds.extend(searchCircle.getBounds());
+                    map.fitBounds(bounds);
+                }
+            } catch (e) {
+                console.error("Erreur lors de l'ajustement de la vue:", e);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Connexion - LSD.com</title>
+    <link rel="stylesheet" href="style_1.css">
+</head>
+<body>
+    <div class="page-container">
+        <header class="site-header">
+            <a href="index.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>Retour</span>
+            </a>
+            <h1 class="logo">LSD.com</h1>
+        </header>
+        
+        <div class="form-container">
+            <form id="connexionForm" action="connexion.php" method="POST">
+                <div class="form-field">
+                    <input type="email" id="email" name="email" placeholder="Saisir adresse mail" required>
+                </div>
+                
+                <div class="form-field">
+                    <input type="password" id="mdp" name="mdp" placeholder="Saisir Mot de passe" required>
+                </div>
+                
+                <div class="forgot-password">
+                    <a href="mot-de-passe-oublie.html">Mot de passe oublié?</a>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="connect-btn">Se connecter</button>
+                </div>
+                
+                <div class="create-account">
+                    <a href="inscription.html">Créer un compte</a>
+                </div>
+            </form>
+        </div>
+        
+        <div class="help-icon">?</div>
+    </div>
+
+    <script src="connexion.js"></script>
+</body>
+</html>

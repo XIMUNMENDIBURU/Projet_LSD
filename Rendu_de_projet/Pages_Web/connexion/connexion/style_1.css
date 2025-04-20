@@ -1,0 +1,350 @@
+/* Réinitialisation des styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Conteneur principal */
+  .page-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    margin: 0;
+    background-color: white;
+    position: relative;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* En-tête */
+  .site-header {
+    background-color: #808080;
+    padding: 15px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  
+  .logo {
+    color: black;
+    font-size: 28px;
+    margin: 0;
+  }
+  
+  /* Conteneur du formulaire de connexion */
+  .form-container {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  #connexionForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .form-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .forgot-password {
+    margin: 10px 0 20px;
+    text-align: center;
+  }
+  
+  .forgot-password a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .form-actions {
+    margin: 10px 0 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .connect-btn {
+    padding: 10px 20px;
+    background-color: white;
+    border: 1px solid #000;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .create-account {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .create-account a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  /* Icône d'aide */
+  .help-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: white;
+  }
+  
+  /* Styles pour le tableau de bord */
+  .dashboard-nav {
+    display: flex;
+    background-color: #8a7dc4;
+    flex-shrink: 0;
+  }
+  
+  .nav-item {
+    padding: 10px 15px;
+    color: #000;
+    text-decoration: none;
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #fff;
+  }
+  
+  .nav-item:last-child {
+    border-right: none;
+  }
+  
+  .nav-item.active {
+    background-color: #7a6db4;
+  }
+  
+  .dashboard-container {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .rating-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .average-rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rating-box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin-left: 5px;
+  }
+  
+  .sort-options {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sort-options select {
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid #000;
+  }
+  
+  .reviews-list {
+    flex-grow: 1;
+  }
+  
+  .review-item {
+    margin-bottom: 20px;
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .rating-boxes {
+    display: flex;
+  }
+  
+  .rating-box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin-left: 5px;
+  }
+  
+  .rating-box.filled {
+    background-color: #000;
+  }
+  
+  .review-content p {
+    margin-top: 5px;
+  }
+  
+  .portfolio-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .portfolio-btn {
+    padding: 10px 20px;
+    background-color: #c2e0c2;
+    border: 1px solid #000;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+  }
+
+  .back-link {
+    position: absolute;
+    left: 15px;
+    top: 30px;
+    transform: translateY(-50%);
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Media queries pour le responsive design */
+  @media (max-width: 768px) {
+    .rating-summary {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .sort-options {
+      margin-top: 10px;
+    }
+  
+    .review-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .rating-boxes {
+      margin-top: 5px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form-container {
+      padding: 15px;
+    }
+  
+    .logo {
+      font-size: 24px;
+    }
+  
+    .dashboard-nav {
+      flex-direction: column;
+    }
+  
+    .nav-item {
+      border-right: none;
+      border-bottom: 1px solid #fff;
+    }
+  
+    .nav-item:last-child {
+      border-bottom: none;
+    }
+  
+    .connect-btn,
+    .portfolio-btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .popup-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .popup-btn {
+        width: 100%;
+    }
+    
+    .back-link span {
+        display: none;
+    }
+  }
+  
+  @media (max-height: 600px) {
+    .form-container {
+      padding: 10px;
+    }
+  
+    .form-field {
+      margin-bottom: 10px;
+    }
+  
+    .forgot-password,
+    .form-actions,
+    .create-account {
+      margin: 5px 0;
+    }
+  }
+  
+  /* Amélioration de l'accessibilité pour les appareils tactiles */
+  @media (hover: none) and (pointer: coarse) {
+    .connect-btn,
+    .portfolio-btn,
+    .nav-item,
+    select,
+    .help-icon {
+      min-height: 44px;
+    }
+  }
+  
